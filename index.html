@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+                        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                        <title>Home</title>
+                        <script src="https://cdn.tailwindcss.com"></script>
+                        <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser-arcade-physics.min.js"></script>
+                    </head>
+                    <body class="bg-white">
+                        <main class="max-w-7xl mx-auto p-4 sm:p-6 md:p-8">
+  <header class="text-center mb-12">
+    <h1 class="text-5xl font-bold">Spencience Snake Game</h1>
+    <p class="text-lg font-medium">A fun and interactive game built with Phaser</p>
+  </header>
+
+  <section class="bg-white rounded shadow-md p-4">
+    <h2 class="text-3xl font-bold mb-4">Game</h2>
+    <div id="game" class="w-full h-96"></div>
+  </section>
+
+  <section class="bg-gray-100 rounded shadow-md p-4 mt-8">
+    <h2 class="text-3xl font-bold mb-4">Settings</h2>
+    <form>
+      <div class="flex flex-col mb-4">
+        <label for="difficulty" class="text-lg font-medium">Difficulty:</label>
+        <select id="difficulty" class="w-full p-2 rounded">
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+      </div>
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save Settings</button>
+    </form>
+  </section>
+
+  <section class="bg-white rounded shadow-md p-4 mt-8">
+    <h2 class="text-3xl font-bold mb-4">Scoreboard</h2>
+    <ul>
+      <li class="flex justify-between mb-2">
+        <span>Player 1</span>
+        <span>100 points</span>
+      </li>
+      <li class="flex justify-between mb-2">
+        <span>Player 2</span>
+        <span>50 points</span>
+      </li>
+      <li class="flex justify-between mb-2">
+        <span>Player 3</span>
+        <span>200 points</span>
+      </li>
+    </ul>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.min.js"></script>
+  <script>
+    const game = new Phaser.Game({
+      type: Phaser.CANVAS,
+      parent: 'game',
+      width: 800,
+      height: 600,
+      scene: {
+        preload: preload,
+        create: create,
+        update: update
+      }
+    });
+
+    function preload() {
+      this.load.image('snake', 'snake.png');
+      this.load.image('food', 'food.png');
+    }
+
+    function create() {
+      this.snake = this.physics.add.sprite(400, 300, 'snake');
+      this.food = this.physics.add.sprite(600, 300, 'food');
+      this.score = 0;
+      this.scoreText = this.add.text(10, 10, 'Score: 0');
+    }
+
+    function update() {
+      if (this.snake.x > this.food.x) {
+        this.snake.x -= 5;
+      } else if (this.snake.x < this.food.x) {
+        this.snake.x += 5;
+      }
+
+      if (this.snake.y > this.food.y) {
+        this.snake.y -= 5;
+      } else if (this.snake.y < this.food.y) {
+        this.snake.y += 5;
+      }
+
+      if (this.snake.x === this.food.x && this.snake.y === this.food.y) {
+        this.score++;
+        this.scoreText.setText(`Score: ${this.score}`);
+        this.food.x = Phaser.Math.RND.between(0, 800);
+        this.food.y = Phaser.Math.RND.between(0, 600);
+      }
+    }
+  </script>
+</main>
+                    </body>
+                    </html>
